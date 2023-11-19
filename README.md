@@ -1,0 +1,1 @@
+![FSM](images/FSM_fact_bot.png)
