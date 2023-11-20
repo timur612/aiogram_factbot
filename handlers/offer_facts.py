@@ -10,7 +10,10 @@ from keyboards.for_facts import get_science_inline_kb, \
     get_historical_inline_kb
 
 from db.sqlite_db import create_offer_fact, is_user_admin, get_offer_facts, \
-    delete_offer_fact, create_fact
+    delete_offer_fact, create_fact, get_offer_fact
+from aiogram.utils.formatting import (
+    Bold, as_list
+)
 
 
 class OfferFact(StatesGroup):
@@ -49,14 +52,18 @@ async def choose_for_admin(message: Message, state: FSMContext):
         await state.set_state(OfferFact.choosing_type_offer)
     else:
         facts = await get_offer_facts()
-        await message.answer("Нажмите на предложенный факт, который вам понравился:",
+        content = as_list(
+            Bold("Нажмите на предложенный факт, который вам понравился:"),
+            *[str(fact[0]) + '. ' + fact[1] for fact in facts]
+        )
+        await message.answer(**content.as_kwargs(),
                              reply_markup=get_offers_list(facts))
         await state.set_state(OfferFact.get_offer)
 
 
 @router.message(OfferFact.get_offer, F.text)
 async def get_offers(message: Message, state: FSMContext):
-    text, fact_id, fact_type, subtype = message.text.split("_")
+    fact_id, text, fact_type, subtype = await get_offer_fact(int(message.text))
     await create_fact(fact_type=fact_type,
                       fact_subtype=subtype,
                       fact_text=text)

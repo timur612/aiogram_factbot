@@ -47,6 +47,11 @@ async def get_offer_facts():
     return facts
 
 
+async def get_offer_fact(fact_id: int):
+    result = cur.execute(f"SELECT * FROM offer_facts WHERE id={fact_id}").fetchone()
+    return result
+
+
 async def get_all_facts():
     result = cur.execute(
         f"SELECT text FROM facts").fetchall()

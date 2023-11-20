@@ -33,7 +33,7 @@ def get_offers_list(offers: list) -> ReplyKeyboardMarkup:
     builder = ReplyKeyboardBuilder()
     for offer in offers:
         builder.row(
-            KeyboardButton(text=offer[1] + "_" + str(offer[0]) + "_" + offer[2] + "_" + offer[3])
+            KeyboardButton(text=str(offer[0]))
         )
     return builder.as_markup(
         resize_keyboard=True
