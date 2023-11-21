@@ -1,7 +1,7 @@
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message, ReplyKeyboardRemove
-from aiogram.filters import StateFilter
+from aiogram.filters import StateFilter, invert_f
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
 
@@ -16,9 +16,17 @@ async def cmd_start(message: Message):
     await message.answer(
         "Привет! Я бот фактов\n"
         "Напишите (/get_facts), если хотите узнать интересный факт\n"
-        "Напшите (/offer_facts), если хотите добавить интересный факт",
+        "Напишите (/offer_facts), если хотите добавить интересный факт",
         reply_markup=ReplyKeyboardRemove(),
     )
+
+
+@router.message(StateFilter(None), invert_f(F.text.in_(['/get_facts', '/offer_facts'])))
+async def not_cmd(message: Message, state: FSMContext):
+    await message.answer(
+        text="Напишите (/get_facts), если хотите узнать интересный факт\n"
+             "Напишите (/offer_facts), если хотите добавить интересный факт",
+        reply_markup=ReplyKeyboardRemove())
 
 
 @router.message(StateFilter(None), Command(commands=["cancel"]))

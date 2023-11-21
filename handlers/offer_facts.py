@@ -153,6 +153,6 @@ async def create_offer(message: Message, state: FSMContext):
                             fact_text=offer_data['offer_text'])
 
     await message.answer(text=f"Спасибо за предложение!\n"
-                              f"Ваше предложение обработает модератор и, может быть в "
-                              f"скором времени ваш факт появиться в нашем боте.")
+                              f"Ваше предложение обработает модератор и, может быть, в "
+                              f"скором времени ваш факт появится в нашем боте!")
     await state.clear()

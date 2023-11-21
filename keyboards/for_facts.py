@@ -39,3 +39,11 @@ def get_historical_inline_kb() -> InlineKeyboardMarkup:
     )
 
     return builder.as_markup()
+
+
+def get_cancel_btn() -> ReplyKeyboardMarkup:
+    builder = ReplyKeyboardBuilder()
+    builder.add(
+        KeyboardButton(text="Закончить")
+    )
+    return builder.as_markup(resize_keyboard=True)

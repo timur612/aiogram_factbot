@@ -21,8 +21,8 @@ async def main():
     # await create_fact(fact_text="sin(30) = 1/2",
     #                   fact_type="science",
     #                   fact_subtype="math")
-    # redis = Redis()
-    redis = Redis(host="redis") # for docker
+    redis = Redis()
+    # redis = Redis(host="redis") # for docker
     dp = Dispatcher(storage=RedisStorage(redis=redis))
     dp.include_routers(out_of_order.router)
     dp.include_routers(common.router, facts.router, offer_facts.router)
